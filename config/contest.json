@@ -1,0 +1,81 @@
+{
+  "title": "КАДР / AI",
+  "deadline": "2026-11-06T13:10:00+02:00",
+  "final": {
+    "enabled": false,
+    "startsAt": null,
+    "deadline": null
+  },
+  "students": [
+    {
+      "id": "student-01",
+      "name": "Боярський Михайло",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://youtu.be/zi3R4Z0AYjE",
+      "format": "landscape",
+      "avatar": "/avatars/student-01.jpg",
+      "thumbnail": "/previews/student-01.jpg"
+    },
+    {
+      "id": "student-02",
+      "name": "Добровольський Андрій",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.youtube.com/watch?v=VqywKF95BUI",
+      "format": "landscape",
+      "avatar": "/avatars/student-02.jpg",
+      "thumbnail": "/previews/student-02.jpg"
+    },
+    {
+      "id": "student-03",
+      "name": "Жєлєзняк Катерина",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.tiktok.com/@katya2007_8/video/7702118810077138228",
+      "format": "portrait",
+      "avatar": "/avatars/student-03.jpg",
+      "thumbnail": "/previews/student-03.jpg"
+    },
+    {
+      "id": "student-04",
+      "name": "Кривошеєв Олександр",
+      "group": "",
+      "title": "Word of Tanks",
+      "video": "https://youtube.com/shorts/ooFmUtN-xpE",
+      "format": "portrait",
+      "avatar": "",
+      "thumbnail": "/previews/student-04.jpg"
+    },
+    {
+      "id": "student-05",
+      "name": "Мамай Максим",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.tiktok.com/@zmhmhjk/video/7702429863382158610",
+      "format": "portrait",
+      "avatar": "/avatars/student-05.jpg",
+      "thumbnail": "/previews/student-05.jpg"
+    },
+    {
+      "id": "student-06",
+      "name": "Сюзєв Нікіта",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.tiktok.com/@rezakeeeee/video/7702969601650330900",
+      "format": "portrait",
+      "avatar": "/avatars/student-06.jpg",
+      "thumbnail": "/previews/student-06.jpg"
+    },
+    {
+      "id": "student-07",
+      "name": "Школун Ярослав",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.youtube.com/watch?v=o2vC8mJgpjY",
+      "format": "landscape",
+      "avatar": "/avatars/student-07.jpg",
+      "thumbnail": "/previews/student-07.jpg"
+    }
+  ]
+}
