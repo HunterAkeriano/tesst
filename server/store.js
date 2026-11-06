@@ -3,7 +3,7 @@ import path from 'node:path'
 import { createHash, randomBytes } from 'node:crypto'
 
 export const digest = value => createHash('sha256').update(value).digest('hex')
-export const dataDir = path.resolve(process.env.DATA_DIR || 'data')
+export const dataDir = path.resolve(process.env.DATA_DIR || process.env.RAILWAY_VOLUME_MOUNT_PATH || 'data')
 fs.mkdirSync(dataDir, { recursive: true })
 const file = path.join(dataDir, 'votes.json')
 export const db = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {
