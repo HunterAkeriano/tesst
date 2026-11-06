@@ -15,6 +15,10 @@ if (config.students.length < 3 || new Set(config.students.map(s => s.id)).size !
 if (config.final.enabled && !(Date.parse(config.final.startsAt) >= Date.parse(config.deadline) && Date.parse(config.final.deadline) > Date.parse(config.final.startsAt))) throw new Error('Invalid final dates')
 if (process.env.RECOVER_SELECTION_2026_11_06 === '1' && !db.recoveries?.includes(recoveryId)) {
   if (process.env.RAILWAY_ENVIRONMENT_ID && !process.env.RAILWAY_VOLUME_MOUNT_PATH) throw new Error('Attach a Railway volume before recovering votes')
+  if (process.env.RAILWAY_VOLUME_MOUNT_PATH) {
+    const relative = path.relative(path.resolve(process.env.RAILWAY_VOLUME_MOUNT_PATH), dataDir)
+    if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) throw new Error('DATA_DIR must be inside the Railway volume')
+  }
   fs.writeFileSync(path.join(dataDir, `before-recovery-${Date.now()}.json`), JSON.stringify(db, null, 2), { flag: 'wx', mode: 0o600 })
   recoverSelection(db, config)
   save()
