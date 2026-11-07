@@ -7,13 +7,14 @@ import { db, save, digest, rank, advance, lock, dataDir } from './store.js'
 import { recoverSelection, recoveryId } from './recovery.js'
 import { identifyDevice, deviceLimit } from './device.js'
 import { parseVideo } from '../shared/video.js'
+import { initializeFinal } from './final.js'
 
 lock()
 const scrypt = promisify(scryptCallback)
 const config = JSON.parse(fs.readFileSync(process.env.CONFIG_PATH || 'config/contest.json', 'utf8'))
 if (config.students.length < 3 || new Set(config.students.map(s => s.id)).size !== config.students.length || !Number.isFinite(Date.parse(config.deadline))) throw new Error('Invalid contest configuration')
 if (config.final.enabled && !(Date.parse(config.final.startsAt) >= Date.parse(config.deadline) && Date.parse(config.final.deadline) > Date.parse(config.final.startsAt))) throw new Error('Invalid final dates')
-if (process.env.RECOVER_SELECTION_2026_11_06 === '1' && !db.recoveries?.includes(recoveryId)) {
+if (!config.final.enabled && process.env.RECOVER_SELECTION_2026_11_06 === '1' && !db.recoveries?.includes(recoveryId)) {
   if (process.env.RAILWAY_ENVIRONMENT_ID && !process.env.RAILWAY_VOLUME_MOUNT_PATH) throw new Error('Attach a Railway volume before recovering votes')
   if (process.env.RAILWAY_VOLUME_MOUNT_PATH) {
     const relative = path.relative(path.resolve(process.env.RAILWAY_VOLUME_MOUNT_PATH), dataDir)
@@ -23,6 +24,10 @@ if (process.env.RECOVER_SELECTION_2026_11_06 === '1' && !db.recoveries?.includes
   recoverSelection(db, config)
   save()
   console.log('Recovered selection votes: Mamai 18, Zheliezniak 17, Siuziev 2')
+}
+if (config.final.enabled && config.final.roundId && db.finalRoundId !== config.final.roundId) {
+  fs.writeFileSync(path.join(dataDir, `before-final-${Date.now()}.json`), JSON.stringify(db, null, 2), { flag: 'wx', mode: 0o600 })
+  if (initializeFinal(db, config)) save()
 }
 const app = express()
 app.disable('x-powered-by')

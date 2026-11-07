@@ -11,6 +11,7 @@ test('registration, concurrent votes, persistence, cutoff and second round', asy
   const configPath = path.join(directory, 'contest.json')
   const config = JSON.parse(fs.readFileSync('config/contest.json', 'utf8'))
   config.deadline = new Date(Date.now() + 3600000).toISOString()
+  config.final = { enabled: false, startsAt: null, deadline: null }
   config.students.forEach((student, index) => { student.id = String(index + 1).padStart(2, '0'); student.video = 'aqz-KE-bpKQ' })
   fs.writeFileSync(configPath, JSON.stringify(config))
   const reservation = net.createServer()

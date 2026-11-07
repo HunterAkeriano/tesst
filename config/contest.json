@@ -2,31 +2,17 @@
   "title": "КАДР / AI",
   "deadline": "2026-11-06T23:00:00+02:00",
   "final": {
-    "enabled": false,
-    "startsAt": null,
-    "deadline": null
+    "enabled": true,
+    "roundId": "final-2026-11-13",
+    "startsAt": "2026-11-07T00:00:00+02:00",
+    "deadline": "2026-11-13T22:00:00+02:00",
+    "participantIds": [
+      "student-03",
+      "student-05",
+      "student-06"
+    ]
   },
   "students": [
-    {
-      "id": "student-01",
-      "name": "Боярський Михайло",
-      "group": "",
-      "title": "Конкурсна робота",
-      "video": "https://youtu.be/zi3R4Z0AYjE",
-      "format": "landscape",
-      "avatar": "/avatars/student-01.jpg",
-      "thumbnail": "/previews/student-01.jpg"
-    },
-    {
-      "id": "student-02",
-      "name": "Добровольський Андрій",
-      "group": "",
-      "title": "Конкурсна робота",
-      "video": "https://www.youtube.com/watch?v=VqywKF95BUI",
-      "format": "landscape",
-      "avatar": "/avatars/student-02.jpg",
-      "thumbnail": "/previews/student-02.jpg"
-    },
     {
       "id": "student-03",
       "name": "Жєлєзняк Катерина",
@@ -36,16 +22,6 @@
       "format": "portrait",
       "avatar": "/avatars/student-03.jpg",
       "thumbnail": "/previews/student-03.jpg"
-    },
-    {
-      "id": "student-04",
-      "name": "Кривошеєв Олександр",
-      "group": "",
-      "title": "Word of Tanks",
-      "video": "https://youtube.com/shorts/ooFmUtN-xpE",
-      "format": "portrait",
-      "avatar": "",
-      "thumbnail": "/previews/student-04.jpg"
     },
     {
       "id": "student-05",
@@ -66,16 +42,6 @@
       "format": "portrait",
       "avatar": "/avatars/student-06.jpg",
       "thumbnail": "/previews/student-06.jpg"
-    },
-    {
-      "id": "student-07",
-      "name": "Школун Ярослав",
-      "group": "",
-      "title": "Конкурсна робота",
-      "video": "https://www.youtube.com/watch?v=o2vC8mJgpjY",
-      "format": "landscape",
-      "avatar": "/avatars/student-07.jpg",
-      "thumbnail": "/previews/student-07.jpg"
     }
   ]
 }
