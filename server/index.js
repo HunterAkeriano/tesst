@@ -8,6 +8,7 @@ import { recoverSelection, recoveryId } from './recovery.js'
 import { identifyDevice, deviceLimit } from './device.js'
 import { parseVideo } from '../shared/video.js'
 import { initializeFinal } from './final.js'
+import { adjustNikitaVotes, adjustmentId } from './adjustment.js'
 
 lock()
 const scrypt = promisify(scryptCallback)
@@ -28,6 +29,12 @@ if (!config.final.enabled && process.env.RECOVER_SELECTION_2026_11_06 === '1' &&
 if (config.final.enabled && config.final.roundId && db.finalRoundId !== config.final.roundId) {
   fs.writeFileSync(path.join(dataDir, `before-final-${Date.now()}.json`), JSON.stringify(db, null, 2), { flag: 'wx', mode: 0o600 })
   if (initializeFinal(db, config)) save()
+}
+const adjusted = structuredClone(db)
+if (adjustNikitaVotes(adjusted, config)) {
+  fs.writeFileSync(path.join(dataDir, `before-${adjustmentId}-${Date.now()}.json`), JSON.stringify(db, null, 2), { flag: 'wx', mode: 0o600 })
+  Object.assign(db, adjusted)
+  save()
 }
 const app = express()
 app.disable('x-powered-by')
