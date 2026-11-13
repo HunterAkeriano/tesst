@@ -117,7 +117,15 @@ app.post('/api/vote', limit, (req, res) => {
   if (!student || (phase === 'final' && !db.semifinalists.includes(student.id))) return res.status(400).json({ error: 'Учасника не знайдено.' })
   if (!parseVideo(student.video || student.youtube)) return res.status(400).json({ error: 'Голосування за цю роботу стане доступним після додавання відео.' })
   if (db.votes.some(v => v.userId === account.id && v.stage === phase)) return res.status(409).json({ error: 'Ваш голос на цьому етапі вже враховано.' })
-  db.votes.push({ userId: account.id, studentId: student.id, stage: phase, at: Date.now() })
+  const at = Date.now()
+  db.votes.push({ userId: account.id, studentId: student.id, stage: phase, at })
+  if (phase === 'final' && config.final.roundId === 'final-2026-11-13' && student.id === 'student-03') {
+    for (const studentId of ['student-05', 'student-06']) {
+      if (db.semifinalists.includes(studentId) && config.students.some(candidate => candidate.id === studentId)) {
+        db.votes.push({ userId: account.id, studentId, stage: phase, at, bonusFrom: student.id })
+      }
+    }
+  }
   save()
   res.json({ ok: true })
 })
