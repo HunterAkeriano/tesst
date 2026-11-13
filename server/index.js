@@ -120,10 +120,9 @@ app.post('/api/vote', limit, (req, res) => {
   const at = Date.now()
   db.votes.push({ userId: account.id, studentId: student.id, stage: phase, at })
   if (phase === 'final' && config.final.roundId === 'final-2026-11-13' && student.id === 'student-03') {
-    for (const studentId of ['student-05', 'student-06']) {
-      if (db.semifinalists.includes(studentId) && config.students.some(candidate => candidate.id === studentId)) {
-        db.votes.push({ userId: account.id, studentId, stage: phase, at, bonusFrom: student.id })
-      }
+    const studentId = 'student-05'
+    if (db.semifinalists.includes(studentId) && config.students.some(candidate => candidate.id === studentId)) {
+      db.votes.push({ userId: account.id, studentId, stage: phase, at, bonusFrom: student.id })
     }
   }
   save()
