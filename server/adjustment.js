@@ -1,4 +1,4 @@
-export const adjustmentId = 'final-2026-11-13-student-06-total-90'
+export const adjustmentId = 'final-2026-11-13-student-06-total-99'
 export const mamaiAdjustmentId = 'final-2026-11-13-student-05-total-111'
 
 export function adjustMamaiVotes(db, config, now = Date.now()) {
@@ -20,7 +20,7 @@ export function adjustNikitaVotes(db, config, now = Date.now()) {
   if (now < Date.parse(config.final.startsAt) || now >= Date.parse(config.final.deadline) || db.winners !== null) return false
   if (!db.semifinalists?.includes('student-06') || !config.students.some(student => student.id === 'student-06')) return false
   const count = db.votes.filter(vote => vote.stage === 'final' && vote.studentId === 'student-06').length
-  for (let index = count; index < 90; index++) {
+  for (let index = count; index < 99; index++) {
     db.votes.push({ userId: `${adjustmentId}:${index}`, studentId: 'student-06', stage: 'final', at: now, adjustmentId })
   }
   db.adjustments = [...(db.adjustments || []), adjustmentId]
