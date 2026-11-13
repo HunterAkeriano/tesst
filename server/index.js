@@ -116,9 +116,11 @@ app.post('/api/vote', limit, (req, res) => {
   const student = config.students.find(s => s.id === req.body?.studentId)
   if (!student || (phase === 'final' && !db.semifinalists.includes(student.id))) return res.status(400).json({ error: 'Учасника не знайдено.' })
   if (!parseVideo(student.video || student.youtube)) return res.status(400).json({ error: 'Голосування за цю роботу стане доступним після додавання відео.' })
+  const ipHash = digest((req.ip || req.socket.remoteAddress).replace(/^::ffff:/, ''))
+  if (db.votes.some(v => v.ipHash === ipHash && v.stage === phase)) return res.status(409).json({ code: 'IP_ALREADY_VOTED', error: 'З цієї IP-адреси вже проголосували на цьому етапі. Повторне голосування з цієї мережі недоступне.' })
   if (db.votes.some(v => v.userId === account.id && v.stage === phase)) return res.status(409).json({ error: 'Ваш голос на цьому етапі вже враховано.' })
   const at = Date.now()
-  db.votes.push({ userId: account.id, studentId: student.id, stage: phase, at })
+  db.votes.push({ userId: account.id, studentId: student.id, stage: phase, at, ipHash })
   if (phase === 'final' && config.final.roundId === 'final-2026-11-13' && student.id === 'student-03') {
     const studentId = 'student-05'
     if (db.semifinalists.includes(studentId) && config.students.some(candidate => candidate.id === studentId)) {

@@ -35,7 +35,7 @@ const participants = computed(() => contest.value?.students.length ?? 0)
 async function api(url, body) {
   const response = await fetch(`/api/${url}`, body === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'AI-Vote' }, body: JSON.stringify(body) })
   const result = await response.json()
-  if (!response.ok) throw new Error(result.error || 'Не вдалося виконати запит.')
+  if (!response.ok) throw Object.assign(new Error(result.error || 'Не вдалося виконати запит.'), { code: result.code })
   return result
 }
 async function refresh() {
@@ -119,7 +119,15 @@ async function vote() {
     toast.value = 'Дякуємо! Ваш голос враховано.'
     clearTimeout(toastTimer)
     toastTimer = setTimeout(() => { toast.value = '' }, 5000)
-  } catch (error) { formError.value = error.message; await refresh() }
+  } catch (error) {
+    formError.value = error.message
+    if (error.code === 'IP_ALREADY_VOTED') {
+      modal.value = 'ip-error'
+      await nextTick()
+      dialog.value?.focus()
+    }
+    await refresh()
+  }
   finally { busy.value = false }
 }
 async function logout() {
@@ -211,9 +219,17 @@ onUnmounted(() => {
   <div v-if="toast" class="toast" role="status">{{ toast }}</div>
   <Teleport to="body">
     <div v-if="modal" class="modal-backdrop" @click.self="close">
-      <section ref="dialog" class="modal" :class="{ 'video-modal': modal === 'video', portrait: modal === 'video' && selected.format === 'portrait' }" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+      <section ref="dialog" class="modal" :class="{ 'ip-error-modal': modal === 'ip-error', 'video-modal': modal === 'video', portrait: modal === 'video' && selected.format === 'portrait' }" :role="modal === 'ip-error' ? 'alertdialog' : 'dialog'" aria-modal="true" aria-labelledby="modal-title" :aria-describedby="modal === 'ip-error' ? 'ip-error-description' : undefined" tabindex="-1">
         <button class="close" aria-label="Закрити" @click="close" :disabled="busy">×</button>
-        <template v-if="modal === 'auth'">
+        <template v-if="modal === 'ip-error'">
+          <div class="ip-error-icon" aria-hidden="true">!</div>
+          <div class="eyebrow">ПОВТОРНЕ ГОЛОСУВАННЯ</div>
+          <h2 id="modal-title">З цієї IP-адреси<br>вже проголосували</h2>
+          <p id="ip-error-description">{{ formError }}</p>
+          <p>Пристрої в одній Wi-Fi або спільній мережі можуть мати однакову IP-адресу. На кожному етапі з однієї IP-адреси дозволено лише один голос.</p>
+          <button class="primary" @click="close" :disabled="busy">Зрозуміло</button>
+        </template>
+        <template v-else-if="modal === 'auth'">
           <div class="eyebrow">ТВІЙ ГОЛОС МАЄ ЗНАЧЕННЯ</div><h2 id="modal-title">{{ authMode === 'register' ? 'Приєднуйся до вибору' : 'З поверненням!' }}</h2><p>Зареєструйся з email та підтримай свого фаворита. Один обліковий запис — один голос на етапі.</p>
           <div class="auth-tabs"><button :class="{ current: authMode === 'register' }" @click="authMode = 'register'; formError = ''">Реєстрація</button><button :class="{ current: authMode === 'login' }" @click="authMode = 'login'; formError = ''">Вхід</button></div>
           <form @submit.prevent="authenticate"><label v-if="authMode === 'register'">Ім’я та прізвище<input v-model="form.name" autocomplete="name" placeholder="Як до тебе звертатися?" required minlength="2" maxlength="80" /></label><label>Email<input v-model="form.email" type="email" autocomplete="username" placeholder="you@example.com" required maxlength="254" /></label><label>Пароль<input v-model="form.password" :autocomplete="authMode === 'register' ? 'new-password' : 'current-password'" type="password" placeholder="Щонайменше 8 символів" required minlength="8" maxlength="128" /></label><p v-if="formError" class="form-error" role="alert">{{ formError }}</p><button class="primary full" :disabled="busy">{{ busy ? 'Зачекайте…' : authMode === 'register' ? 'Зареєструватися ↗' : 'Увійти ↗' }}</button><small>Для наступного входу використовуй email і пароль. Твої дані не відображаються публічно. У цьому браузері можна створити не більше двох облікових записів.</small></form>
