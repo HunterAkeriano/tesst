@@ -9,6 +9,7 @@ import { identifyDevice, deviceLimit } from './device.js'
 import { parseVideo } from '../shared/video.js'
 import { initializeFinal } from './final.js'
 import { adjustNikitaVotes, adjustmentId, adjustMamaiVotes, mamaiAdjustmentId } from './adjustment.js'
+import { applyPeriodicVotes } from './periodic.js'
 
 lock()
 const scrypt = promisify(scryptCallback)
@@ -38,6 +39,11 @@ for (const [adjust, id] of [[adjustNikitaVotes, adjustmentId], [adjustMamaiVotes
     save()
   }
 }
+function updatePeriodicVotes() {
+  if (applyPeriodicVotes(db, config)) save()
+}
+updatePeriodicVotes()
+setInterval(updatePeriodicVotes, 1000).unref()
 const app = express()
 app.disable('x-powered-by')
 if (process.env.TRUST_PROXY === '1') app.set('trust proxy', 1)
