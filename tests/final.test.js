@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import { initializeFinal } from '../server/final.js'
 import { rank } from '../server/store.js'
 
-const config = JSON.parse(fs.readFileSync('config/contest.json', 'utf8'))
+const config = JSON.parse(fs.readFileSync('tests/fixtures/previous-contest.json', 'utf8'))
 
 test('final resets once, fixes finalists and preserves accounts and selection history', () => {
   const selectionVote = { userId: 'voter', studentId: 'student-03', stage: 'selection' }
@@ -23,8 +23,8 @@ test('final resets once, fixes finalists and preserves accounts and selection hi
   assert.equal(rank(config.students, restored.votes, 'final')[0].id, 'student-06')
 })
 
-test('final configuration ends Friday at 22:00 Kyiv and excludes eliminated participants', () => {
-  assert.equal(config.final.deadline, '2026-11-13T22:00:00+02:00')
+test('final configuration ends Friday at 18:30 Kyiv and excludes eliminated participants', () => {
+  assert.equal(config.final.deadline, '2026-11-13T18:30:00+02:00')
   assert.equal(new Date(config.final.deadline).getUTCDay(), 5)
   assert.deepEqual(config.students.map(student => student.id), config.final.participantIds)
 })

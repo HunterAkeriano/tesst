@@ -9,7 +9,7 @@ import net from 'node:net'
 test('registration, concurrent votes, persistence, cutoff and second round', async () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-vote-test-'))
   const configPath = path.join(directory, 'contest.json')
-  const config = JSON.parse(fs.readFileSync('config/contest.json', 'utf8'))
+  const config = JSON.parse(fs.readFileSync('tests/fixtures/previous-contest.json', 'utf8'))
   config.deadline = new Date(Date.now() + 3600000).toISOString()
   config.final = { enabled: false, startsAt: null, deadline: null }
   config.students.forEach((student, index) => { student.id = String(index + 1).padStart(2, '0'); student.video = 'aqz-KE-bpKQ' })

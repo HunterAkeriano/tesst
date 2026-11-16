@@ -27,7 +27,7 @@ if ((await page.locator('.author h3').allTextContents())[0] !== 'Жєлєзня�
 if (await page.locator('.author img').count() !== 3) throw new Error('Expected 3 supplied photos')
 if ((await page.locator('.card-score strong').allTextContents()).some(score => score !== '0')) throw new Error('Final must start at zero')
 if (await page.locator('.badge').filter({ hasText: 'Фіналіст' }).count() !== 3) throw new Error('Finalist badges missing')
-if (!(await page.locator('.stage-status').innerText()).includes('13 листопада о 22:00')) throw new Error('Wrong final deadline')
+if (!(await page.locator('.stage-status').innerText()).includes('13 листопада о 18:30')) throw new Error('Wrong final deadline')
 await page.waitForFunction(() => [...document.querySelectorAll('.author img')].every(img => img.complete && img.naturalWidth > 0))
 await page.locator('.student-card').last().scrollIntoViewIfNeeded()
 await page.waitForFunction(() => [...document.querySelectorAll('.video-cover img')].length === 3 && [...document.querySelectorAll('.video-cover img')].every(img => img.complete && img.naturalWidth > 0))

@@ -1,0 +1,47 @@
+{
+  "title": "КАДР / AI",
+  "deadline": "2026-11-06T23:00:00+02:00",
+  "final": {
+    "enabled": true,
+    "roundId": "final-2026-11-13",
+    "startsAt": "2026-11-07T00:00:00+02:00",
+    "deadline": "2026-11-13T18:30:00+02:00",
+    "participantIds": [
+      "student-03",
+      "student-05",
+      "student-06"
+    ]
+  },
+  "students": [
+    {
+      "id": "student-03",
+      "name": "Жєлєзняк Катерина",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.tiktok.com/@katya2007_8/video/7702118810077138228",
+      "format": "portrait",
+      "avatar": "/avatars/student-03.jpg",
+      "thumbnail": "/previews/student-03.jpg"
+    },
+    {
+      "id": "student-05",
+      "name": "Мамай Максим",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.tiktok.com/@zmhmhjk/video/7702429863382158610",
+      "format": "portrait",
+      "avatar": "/avatars/student-05.jpg",
+      "thumbnail": "/previews/student-05.jpg"
+    },
+    {
+      "id": "student-06",
+      "name": "Сюзєв Нікіта",
+      "group": "",
+      "title": "Конкурсна робота",
+      "video": "https://www.tiktok.com/@rezakeeeee/video/7702969601650330900",
+      "format": "portrait",
+      "avatar": "/avatars/student-06.jpg",
+      "thumbnail": "/previews/student-06.jpg"
+    }
+  ]
+}

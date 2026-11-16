@@ -198,7 +198,7 @@ onUnmounted(() => {
         <article v-for="(student, index) in contest?.students" :key="student.id" class="student-card" :class="{ chosen: contest.myVote === student.id, qualified: contest.semifinalists?.includes(student.id) }">
           <div class="card-content">
             <div class="student-info">
-              <div class="card-top"><span class="rank">{{ String(index + 1).padStart(2, '0') }} <span>/</span></span><span class="badge" v-if="contest.phase === 'finished' && contest.winners?.[0] === student.id">↗ Переможець</span><span class="badge" v-else-if="contest.semifinalists?.includes(student.id)">↗ Фіналіст</span><span class="category" v-else>{{ media(student)?.provider || 'AI-відео' }}</span></div>
+              <div class="card-top"><span class="rank">{{ String(index + 1).padStart(2, '0') }} <span>/</span></span><span class="badge" v-if="contest.phase === 'finished' && contest.winners?.[0] === student.id">↗ Переможець</span><span class="badge" v-else-if="contest.semifinalists?.includes(student.id)">↗ Учасник</span><span class="category" v-else>{{ media(student)?.provider || 'AI-відео' }}</span></div>
               <div class="author"><img v-if="student.avatar" :src="student.avatar" :alt="student.name" class="avatar" /><div v-else class="avatar" :class="`avatar-${index % 4}`">{{ initials(student.name) }}</div><div><h3>{{ student.name }}</h3><span>{{ student.group ? `Група ${student.group}` : 'Учасник конкурсу' }}</span></div></div>
               <h4>«{{ student.title }}»</h4>
               <div class="card-score"><span class="heart">♡</span><strong>{{ student.votes }}</strong><span>голосів</span><small v-if="active && index < 3 && student.votes > 0">У трійці лідерів</small></div>

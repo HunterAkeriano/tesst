@@ -35,6 +35,11 @@ export function rank(students, votes, stage) {
   }).sort((a, b) => b.votes - a.votes || a.name.localeCompare(b.name, 'uk') || a.id.localeCompare(b.id))
 }
 export function advance(config, now = Date.now()) {
+  if (!config.final.enabled && now < Date.parse(config.deadline) && (db.semifinalists !== null || db.winners !== null)) {
+    db.semifinalists = null
+    db.winners = null
+    save()
+  }
   if (now >= Date.parse(config.deadline) && db.semifinalists === null) {
     db.semifinalists = rank(config.students, db.votes, 'selection').slice(0, 3).map(s => s.id)
     save()
